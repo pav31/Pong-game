@@ -14,6 +14,13 @@ HALF_PAD_HEIGHT = PAD_HEIGHT / 2
 LEFT = False
 RIGHT = True
 
+snd_boom–boom = "https://github.com/pav31/Pong-game/blob/master/sounds/boom–boom.mp3"
+snd_borders = "https://github.com/pav31/Pong-game/blob/master/sounds/borders.mp3"
+snd_paddle1 = "https://github.com/pav31/Pong-game/blob/master/sounds/paddle1.mp3"
+snd_paddle2 = "https://github.com/pav31/Pong-game/blob/master/sounds/paddle2.mp3"
+snd_score = "https://github.com/pav31/Pong-game/blob/master/sounds/score.mp3"
+snd_side = "https://github.com/pav31/Pong-game/blob/master/sounds/side.mp3"
+
 paddle1_pos = [[HALF_PAD_WIDTH,HEIGHT / 2 - HALF_PAD_HEIGHT], \
                [HALF_PAD_WIDTH, HEIGHT / 2 + HALF_PAD_HEIGHT]]
 paddle2_pos = [[WIDTH - HALF_PAD_WIDTH,HEIGHT / 2 - HALF_PAD_HEIGHT], \
@@ -81,16 +88,21 @@ def draw(canvas):
     # Reflect vertical left
     #  # GOOD!!!
     if ball_pos[0] - BALL_RADIUS <= PAD_WIDTH:
-        # If ball hit the paddle1 or paddle2
+        # If ball hit the paddle1
         if (paddle1_pos[0][1] <= ball_pos[1] <= paddle1_pos[1][1]):
+            play_sound(paddle1)
             ball_vel[0] *= -1.1
         else:
+            play_sound(score)
             score(RIGHT)
             spawn_ball(RIGHT)
     elif ball_pos[0] + BALL_RADIUS >= (WIDTH - 1) - PAD_WIDTH:
+        # If ball hit the paddle1 or paddle2
         if (paddle2_pos[0][1] <= ball_pos[1] <= paddle2_pos[1][1]):
+            play_sound(paddle2)
             ball_vel[0] *= -1.1
         else:
+            play_sound(score)
             score(LEFT)
             spawn_ball(LEFT)
 
@@ -98,6 +110,7 @@ def draw(canvas):
     #  # GOOD!!!
     if ball_pos[1] <= BALL_RADIUS or\
     ball_pos[1] >= (HEIGHT - 1) - BALL_RADIUS:
+        play_sound(side)
         ball_vel[1] = -ball_vel[1]
 
     # update paddle's vertical position, keep paddle on the screen
@@ -156,6 +169,13 @@ def keyup(key):
 def reset():
     '''Reset Button'''
     new_game()
+
+def play_sound(url):
+    '''Loads sound from url, plays it and rewinds'''
+    sound = simplegui.load_sound(url)
+    sound.play()
+    sound.rewind()
+
 
 
  # GOOD!!!
