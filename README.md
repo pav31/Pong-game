@@ -1,4 +1,6 @@
-Pong-game
-=========
+Pong: the game
+==============
 
-Coursera code and files
+Coursera mini-project.
+
+
